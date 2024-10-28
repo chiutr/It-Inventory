@@ -1,0 +1,369 @@
+/* Estilos para o botão de alternância de tema */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: #0056b3;
+}
+
+/* Tema claro (padrão) */
+body {
+    background-color: #f9f9f9;
+    color: #ffffff;
+}
+
+/* Tema escuro */
+body.dark-theme {
+    background-color: #333;
+    color: #f9f9f9;
+}
+
+header.dark-theme {
+    background-color: #111;
+    color: #f9f9f9;
+}
+
+h1.dark-theme {
+    color: white;
+}
+
+.search-item.dark-theme {
+    background-color: #444;
+    border-color: #888;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+}
+
+button.dark-theme {
+    background-color: #555;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button.dark-theme:hover {
+    background-color: #444;
+}
+
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Cabeçalho */
+header {
+    width: 100vw;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+header .title {
+    font-size: 2em;
+    margin: 0;
+    font-weight: bold;
+    color: white;
+}
+
+/* Contêiner para o formulário e pesquisa */
+#form-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulário e pesquisa alinhados */
+form, #search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+form {
+    flex-direction: column;
+}
+
+#search-container {
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Container para os botões de quantidade */
+#quantidade-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#quantidade-container input[type="number"] {
+    text-align: center;
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 60px;
+}
+
+#quantidade-container button {
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+}
+
+#quantidade-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Ajuste para o layout da tabela */
+.category table td {
+    vertical-align: middle;
+}
+
+.category {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+table button {
+    padding: 10px 16px;
+    font-size: 14px;
+    background-color: #c10349;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+table button:hover {
+    background-color: #00078e;
+    transform: scale(1.05);
+}
+
+table button:active {
+    transform: scale(0.95);
+}
+
+/* Estilos para os cartões de pesquisa */
+#inventario-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.search-item {
+    background-color: #fff;
+    border: 2px solid #007BFF;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.search-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 123, 255, 0.3);
+}
+
+.search-item strong {
+    display: block;
+    font-size: 18px;
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.search-item p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-update, .btn-remove {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remove {
+    background-color: #dc3545;
+}
+
+.btn-remove:hover {
+    background-color: #750006;
+}
+
+.btn-update:hover {
+    background-color: #00078e;
+}
+
+/* Container principal para o inventário de categorias */
+#inventario-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 40px;
+}
+
+/* Estilo de cada categoria */
+.category {
+    background-color: #ffffff;
+    border: 2px solid #007BFF;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Título da categoria */
+.category h2 {
+    color: #007BFF;
+    margin-bottom: 15px;
+}
+
+/* Estilo de cada item dentro da categoria */
+.search-item {
+    margin-bottom: 15px;
+}
+
+.category-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+#total-itens {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #ffffff;
+}
+
+.download-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.download-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.download-btn:active {
+    transform: scale(0.95);
+}
+
+#download-container {
+    text-align: center;
+    margin-bottom: 20px;
+}

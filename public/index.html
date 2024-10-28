@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It Inventory</title>
+    <link rel="icon" href="https://files.oaiusercontent.com/file-WlXPWVK0P151nEwDVU9YNaLP?se=2024-10-25T20%3A40%3A56Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D6dc67276-ea58-4e2b-9c78-0a18e264e7c9.webp&sig=1LTXkJw8gr2D3gGtTlc9oQtCiRZCKPApJeAh6Hg2DDQ%3D" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1 class="title">IT INVENTORY</h1>
+        <div id="total-itens">Total de Itens: 0</div>
+        <button id="theme-toggle-btn" class="theme-toggle">🌙</button>
+    </header>
+
+    <h1>Inventário de Produtos</h1>
+
+    <!-- Botão para Download do Inventário -->
+    <div id="download-container">
+        <button onclick="downloadInventory()" class="download-btn">📥 Baixar Inventário</button>
+    </div>
+    
+    <!-- Contêiner para o Formulário e o Campo de Pesquisa -->
+    <div id="form-search-container">
+        <!-- Formulário de Adição -->
+        <form id="add-item-form">
+            <input type="text" id="item-nome" placeholder="Nome do Produto" required>
+            <input type="text" id="item-marca" placeholder="Marca do Produto" required>
+            <input type="text" id="item-categoria" placeholder="Categoria" required>
+            <div id="quantidade-container">
+                <button type="button" id="decrement-btn">-</button>
+                <input type="number" id="item-quantidade" placeholder="Quantidade" value="1" min="1" required>
+                <button type="button" id="increment-btn">+</button>
+            </div>
+            <button type="submit">Adicionar</button>
+        </form>
+        
+        <!-- Campo de Pesquisa -->
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Pesquisar produto ou categoria">
+            <button id="search-button">Pesquisar</button>
+        </div>
+    </div>
+
+    <!-- Inventário por Categorias -->
+    <div id="inventario-categorias"></div>
+    
+    <footer>
+        <p>&copy; 2024 It Inventory. Todos os direitos reservados. Christofer</p>
+        <div class="footer-socials">
+            <a href="https://www.instagram.com/ch_zin_001/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram instalogo"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Alterna o tema do site entre claro e escuro
+        document.getElementById("theme-toggle-btn").addEventListener("click", () => {
+            document.body.classList.toggle("dark-theme");
+
+            const themeBtn = document.getElementById("theme-toggle-btn");
+            themeBtn.textContent = document.body.classList.contains("dark-theme") ? "☀️" : "🌙";
+        });
+
+         // Função para fazer o download da planilha de inventário
+         function downloadInventory() {
+            window.location.href = '/download-inventory';
+        }
+
+        // Função para atualizar o total de itens no inventário
+        function updateTotalItemCount(itemsByCategory) {
+            let totalCount = 0;
+            for (const category in itemsByCategory) {
+                totalCount += itemsByCategory[category].length;
+            }
+            document.getElementById("total-itens").textContent = `Total de Itens: ${totalCount}`;
+        }
+
+        // Mapeamento de imagens por categoria
+        const categoryImages = {
+            "Monitores": "https://images.tcdn.com.br/img/img_prod/1002494/monitor_gamer_pcfort_t2701_165_27_led_full_hd_165hz_display_port_hdmi_dvi_vesa_12159_1_41f110c369e18c77abe42f0bfbe24480.jpg",
+            "Hardware": "https://4infra.com.br/wp-content/uploads/2019/01/background-board-card-825262-1-scaled.jpg",
+            "Notebooks": "https://images.kabum.com.br/produtos/fotos/595976/notebook-samsung-galaxy-book4-intel-core-i5-1335u-8gb-ram-ssd-256gb-15-6-full-hd-iris-xe-graphics-win-11h-grafite-np750xgj-kg4br_1720105635_original.jpg",
+            "Periféricos": "https://cf.shopee.com.br/file/sg-11134201-22120-bvnzvmbuqskv1b",
+            "Computadores": "https://cdn.shoppub.io/cdn-cgi/image/w=1000,h=1000,q=80,f=auto/oficinadosbits/media/uploads/produtos/foto/mqbmrbij/file.png",
+        };
+
+        // Função para carregar itens por categoria ao abrir o site
+        async function loadItemsByCategory() {
+            try {
+                const response = await fetch('/items-by-category');
+                if (response.ok) {
+                    const itemsByCategory = await response.json();
+                    displayItemsByCategory(itemsByCategory);
+                    updateTotalItemCount(itemsByCategory); // Atualiza o contador de itens
+                } else {
+                    console.error('Erro ao carregar itens por categoria');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        // Função para exibir itens organizados por categoria com imagem
+        function displayItemsByCategory(itemsByCategory) {
+            const inventarioCategorias = document.getElementById("inventario-categorias");
+            inventarioCategorias.innerHTML = '';
+
+            for (const category in itemsByCategory) {
+                const categoryDiv = document.createElement("div");
+                categoryDiv.classList.add("category");
+
+                const categoryTitle = document.createElement("h2");
+                categoryTitle.textContent = category;
+                categoryDiv.appendChild(categoryTitle);
+
+                const items = itemsByCategory[category];
+                items.forEach(item => {
+                    const itemElement = document.createElement("div");
+                    itemElement.classList.add("search-item");
+
+                    // Definir a imagem com base na categoria
+                    const imageUrl = categoryImages[category] || "url-da-imagem-padrao.jpg";  // Imagem padrão caso a categoria não esteja mapeada
+                    const imageElement = document.createElement("img");
+                    imageElement.src = imageUrl;
+                    imageElement.alt = category;
+                    imageElement.classList.add("category-image");
+
+                    itemElement.appendChild(imageElement);
+
+                    itemElement.innerHTML += `
+                        <strong>Nome:</strong> <p>${item.name}</p>
+                        <strong>Marca:</strong> <p>${item.mark}</p>
+                        <strong>Quantidade:</strong> <input type="number" id="quantidade-${item.id}" value="${item.amount}" min="1">
+                        <div class="actions">
+                            <button onclick="updateItem(${item.id})" class="btn-update">Atualizar Quantidade</button>
+                            <button onclick="removeItem(${item.id})" class="btn-remove">Remover Item</button>
+                        </div>
+                    `;
+                    categoryDiv.appendChild(itemElement);
+                });
+
+                inventarioCategorias.appendChild(categoryDiv);
+            }
+        }
+
+        // Chamar a função ao carregar a página
+        document.addEventListener("DOMContentLoaded", loadItemsByCategory);
+
+        // Funções de atualização e remoção de itens...
+        // O restante do código permanece o mesmo.
+
+    </script>
+</body>
+</html>
