@@ -20,5 +20,25 @@ Um inventário simples para gestão de TI com HTML, CSS e JavaScript.
 - Docker
 - Prisma
 
+## Pré-requisitos
+- Node.js v16+
+- Git
+- Navegador moderno (Chrome, Firefox, Edge)
+
+
+### **Roadmap de Funcionalidades**
+```markdown
+## Roadmap
+- [x] Criar interface básica de inventário
+- [ ] Implementar autenticação de usuário
+
+## Recursos
+- [Documentação do Node.js](https://nodejs.org/en/docs/)
+- [Curso de JavaScript no MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [Tutorial sobre Flexbox em CSS](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
 ## Contribuições
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma *issue* ou enviar um *pull request*.
+
+## Licença
+Este projeto está licenciado sob a licença MIT. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
