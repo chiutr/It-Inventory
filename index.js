@@ -1,9 +1,9 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-const app = express();
-const port = 3000;
 const ExcelJS = require('exceljs'); // Importa a biblioteca exceljs
+const app = express();
+const prisma = new PrismaClient();
+const port = 3000;
 
 // Middleware para processar JSON nas requisições
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(express.static('public'));
 // Rota para fazer o download do inventário em formato de planilha
 app.get('/download-inventory', async (req, res) => {
     try {
-        const items = await prisma.item.findMany(); // Obtém os itens do inventário
+        const items = await prisma.item.findMany();
 
         // Cria uma nova planilha
         const workbook = new ExcelJS.Workbook();
@@ -30,19 +30,11 @@ app.get('/download-inventory', async (req, res) => {
         ];
 
         // Adiciona os dados
-        items.forEach(item => {
-            worksheet.addRow(item);
-        });
+        items.forEach(item => worksheet.addRow(item));
 
         // Define o cabeçalho para download
-        res.setHeader(
-            'Content-Disposition',
-            'attachment; filename="inventario.xlsx"'
-        );
-        res.setHeader(
-            'Content-Type',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        );
+        res.setHeader('Content-Disposition', 'attachment; filename="inventario.xlsx"');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
         // Envia o arquivo para o cliente
         await workbook.xlsx.write(res);
@@ -55,20 +47,15 @@ app.get('/download-inventory', async (req, res) => {
 
 // Rota para adicionar um novo item
 app.post('/add-item', async (req, res) => {
-    try {
-        const { name, mark, category, amount } = req.body;
+    const { name, mark, category, amount } = req.body;
 
+    try {
         const newItem = await prisma.item.create({
-            data: {
-                name: name,
-                mark: mark,
-                category: category,
-                amount: amount,
-            },
+            data: { name, mark, category, amount },
         });
         res.json({ message: 'Item criado com sucesso', newItem });
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao criar o item:', error);
         res.status(500).json({ error: 'Erro ao criar o item', details: error });
     }
 });
@@ -76,9 +63,10 @@ app.post('/add-item', async (req, res) => {
 // Rota para listar todos os itens
 app.get('/items', async (req, res) => {
     try {
-        const allItens = await prisma.item.findMany();
-        res.json(allItens);
+        const allItems = await prisma.item.findMany();
+        res.json(allItems);
     } catch (error) {
+        console.error('Erro ao listar os itens:', error);
         res.status(500).json({ error: 'Erro ao listar os itens', details: error });
     }
 });
@@ -88,12 +76,10 @@ app.delete('/remove-item/:id', async (req, res) => {
     const itemId = parseInt(req.params.id);
 
     try {
-        await prisma.item.delete({
-            where: { id: itemId }
-        });
+        await prisma.item.delete({ where: { id: itemId } });
         res.json({ message: 'Item removido com sucesso' });
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao remover o item:', error);
         res.status(500).json({ error: 'Erro ao remover o item' });
     }
 });
@@ -110,25 +96,20 @@ app.put('/update-item/:id', async (req, res) => {
         });
         res.json(updatedItem);
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao atualizar a quantidade do item:', error);
         res.status(500).json({ error: 'Erro ao atualizar a quantidade do item' });
     }
 });
 
-// Iniciar o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
-});
-
+// Rota de pesquisa
 app.get('/search', async (req, res) => {
-    const searchTerm = req.query.term;  // Captura o termo da pesquisa
-    
+    const searchTerm = req.query.term;
+
     if (!searchTerm) {
         return res.status(400).json({ error: 'O termo de pesquisa é obrigatório' });
     }
 
     try {
-        // Fazer a pesquisa no banco de dados usando Prisma
         const results = await prisma.item.findMany({
             where: {
                 OR: [
@@ -138,31 +119,29 @@ app.get('/search', async (req, res) => {
                 ]
             }
         });
-        
-        // Retorna os resultados encontrados
         res.json(results);
     } catch (error) {
-        console.error(error); // Verifique o log de erros no console do backend
+        console.error('Erro ao realizar a pesquisa:', error);
         res.status(500).json({ error: 'Erro ao realizar a pesquisa' });
     }
 });
 
-// Rota para listar todos os itens
+// Rota para listar todos os itens para exibição completa
 app.get('/all-items', async (req, res) => {
     try {
-        const allItems = await prisma.item.findMany(); // Busca todos os itens no banco de dados
-        res.json(allItems); // Retorna os itens no formato JSON
+        const allItems = await prisma.item.findMany();
+        res.json(allItems);
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao listar os itens:', error);
         res.status(500).json({ error: 'Erro ao listar os itens' });
     }
 });
 
+// Rota para listar itens organizados por categoria
 app.get('/items-by-category', async (req, res) => {
     try {
         const items = await prisma.item.findMany();
         
-        // Organizar itens por categoria
         const itemsByCategory = items.reduce((acc, item) => {
             const category = item.category;
             if (!acc[category]) acc[category] = [];
@@ -172,7 +151,12 @@ app.get('/items-by-category', async (req, res) => {
 
         res.json(itemsByCategory);
     } catch (error) {
-        console.error(error);
+        console.error('Erro ao buscar itens por categoria:', error);
         res.status(500).json({ error: 'Erro ao buscar itens por categoria' });
     }
+});
+
+// Iniciar o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando em http://localhost:${port}`);
 });
