@@ -1,7 +1,7 @@
 # IT Inventory 📦
 Um inventário simples para gestão de TI com HTML, CSS e JavaScript.
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
-![Licença](https://img.shields.io/github/license/seuusuario/seuprojeto)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Demonstração
 ![Screenshot1](https://i.postimg.cc/MpLf62Y5/image.png)
